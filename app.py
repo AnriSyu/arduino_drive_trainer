@@ -1,11 +1,11 @@
 # app.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from config import db_config
 from datetime import datetime
 from flasgger import Swagger
-import pymysql
 import bcrypt
+import pymysql
+from config import MYSQL_DATABASE, MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_PORT
 
 swagger_template = {
     "swagger": "2.0",
@@ -30,12 +30,21 @@ swagger_config = {
     "swagger_ui": True,
     "specs_route": "/docs/"
 }
+
+
 app = Flask(__name__)
 CORS(app)
 Swagger(app, template=swagger_template, config=swagger_config)
 
 def get_connection():
-    return pymysql.connect(**db_config)
+    return pymysql.connect(
+        host=MYSQL_HOST,
+        user=MYSQL_USER,
+        password=MYSQL_PASSWORD,
+        db=MYSQL_DATABASE,
+        port=MYSQL_PORT,
+        cursorclass=pymysql.cursors.DictCursor
+    )
 
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()

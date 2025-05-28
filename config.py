@@ -1,10 +1,7 @@
-# config.py
-import pymysql
+import os
 
-db_config = {
-    "host": "localhost",
-    "user": "root",
-    "password": "",
-    "database": "arduino_drive_trainer",
-    'cursorclass': pymysql.cursors.DictCursor
-}
+MYSQL_DATABASE = os.getenv('MYSQL_DATABASE', 'railway')
+MYSQL_HOST = os.getenv('MYSQLHOST', 'mysql.railway.internal')
+MYSQL_USER = os.getenv('MYSQLUSER', 'root')
+MYSQL_PASSWORD = os.getenv('MYSQLPASSWORD', 'UOuEJWSEEnxequxLBWBNeRrWHDpuShit')
+MYSQL_PORT = int(os.getenv('MYSQLPORT', 3306))
